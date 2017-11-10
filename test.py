@@ -16,7 +16,7 @@ sys.path.append('/home/krishna_warrior/Desktop/traffic_sign_final')        #addr
 from pipeline import NeuralNetwork, make_adam, Session, build_pipeline      #import from pipeline
 matplotlib.style.use('ggplot')
 
-TRAIN_IMAGE_DIR='/home/krishna_warrior/Desktop/dataset'
+TRAIN_IMAGE_DIR='/home/krishna_warrior/Desktop/dataset30k'
 dfs=[]
 for train_file in glob.glob(os.path.join(TRAIN_IMAGE_DIR,'*/GT-*.csv')):
     folder=train_file.split('/')[5]      #actually my path contains 5 elements, configure according to your path
@@ -91,16 +91,6 @@ print('X_train:',len(X_train))
 print('X_valid:',len(X_valid))
 #Model implimentation
 INPUT_SHAPE=(32,32,3)
-def network1(input_shape=INPUT_SHAPE):             #before proceding further please analyse the network.py,pipeline.py in folder pipeline(it's an order not a request!!)
-    return(NeuralNetwork()
-           .input(input_shape)
-           .conv([5,5,6])      #filters in conv. layer
-           .max_pool()
-           .relu()
-           .flatten()
-           .dense(120)        #neurons in dense layer
-           .relu()
-           .dense(N_CLASSES))
 #pipeline
 def train_evaluate(pipeline,epochs=10,samples_per_epoch=50000,train=(X_train,y_train),test=(X_valid, y_valid)):     #here 50000 is used to increase accuracy(more iterations)
     X,y=train
@@ -230,7 +220,7 @@ def make_network3(input_shape=INPUT_SHAPE):
             .relu()
             .dense(N_CLASSES))
 
-X_new = np.array(glob.glob('images/*.png'))
+X_new = np.array(glob.glob('images/*.ppm'))
 
 new_images = [plt.imread(path) for path in X_new]
 
@@ -250,7 +240,7 @@ print('getting top 5 results')
 
 with Session() as session:
     pipeline = build_pipeline(preprocessors, session, make_network3())
-    session.load('checkpoint/network3.ckpt')
+    session.load('checkpoint/network3_epochs-100_lr-1.0e-4.ckpt')
     prob = pipeline.predict_proba(X_new)
     estimator = pipeline.steps[-1][1]
     top_5_prob, top_5_pred = estimator.top_k_

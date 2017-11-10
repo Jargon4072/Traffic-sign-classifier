@@ -16,7 +16,7 @@ sys.path.append('/home/krishna_warrior/Desktop/traffic_sign_final')        #addr
 from pipeline import NeuralNetwork, make_adam, Session, build_pipeline      #import from pipeline
 matplotlib.style.use('ggplot')
 
-TRAIN_IMAGE_DIR='/home/krishna_warrior/Desktop/dataset'
+TRAIN_IMAGE_DIR='/home/krishna_warrior/Desktop/train'
 dfs=[]
 for train_file in glob.glob(os.path.join(TRAIN_IMAGE_DIR,'*/GT-*.csv')):
     folder=train_file.split('/')[5]      #actually my path contains 5 elements, configure according to your path
@@ -29,7 +29,7 @@ train_df.head();
 #print(train_df['ClassId'])
 #print(dfs)
 df=pd.DataFrame(train_df)
-df.to_csv("my_data1.csv",index=False)
+df.to_csv("train.csv",index=False)
 #y= train_df['ClassId'][~np.isnan(train_df['ClassId'])]      #this is used to remove nan entries
 df=pd.DataFrame(train_df['ClassId'])
 df.to_csv("my_data.csv",index=False)
