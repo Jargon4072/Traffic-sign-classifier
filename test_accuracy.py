@@ -279,7 +279,6 @@ with Session() as session:
     print('Test Score: {}'.format(score))
 
 print('done')
-
 print('-' * 80)
 print('Top 5 Predictions')
 print('-' * 80)

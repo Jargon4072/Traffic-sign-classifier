@@ -26,11 +26,15 @@ for train_file in glob.glob(os.path.join(TRAIN_IMAGE_DIR,'*/GT-*.csv')):
 
 train_df=pd.concat(dfs,ignore_index=True)             #storing csv data in train_df
 train_df.head();
+
 #print(train_df['ClassId'])
 #print(dfs)
+
 df=pd.DataFrame(train_df)
 df.to_csv("my_data1.csv",index=False)
+
 #y= train_df['ClassId'][~np.isnan(train_df['ClassId'])]      #this is used to remove nan entries
+
 df=pd.DataFrame(train_df['ClassId'])
 df.to_csv("my_data.csv",index=False)
 
@@ -43,12 +47,14 @@ def class_dist(classIDs,title):            #maping data distribution with help  
     plt.title('class id dist for {}'.format(title))
     plt.hist(classIDs,bins=N_CLASSES)
     plt.show()
-#class_dist(train_df['ClassId'],'Train data')
 
+#class_dist(train_df['ClassId'],'Train data')
 sign_name_df=pd.read_csv('sign_names.csv',index_col='ClassId')       #getting sign name corresponding to classid
 sign_name_df.head()
+
 #print(sign_name_df)
 sign_name_df['Occurence']=[sum(train_df['ClassId']==c) for c in range(N_CLASSES)]      # add new colum 'Occurence' which stores no of images in a class.
+
 sign_name_df.sort_values('Occurence',ascending=False)    #sort occurence in non ascending order
 #print(sign_name_df)                       #will show id,name,occurence of images.
 SIGN_NAMES=sign_name_df.SignName.values         #store sign names value corresponding to id
@@ -61,6 +67,7 @@ def get_samples(image_data,num_samples,class_id=None):         #prepare sample i
         image_data=image_data[image_data['ClassId']==class_id]
     indices=np.random.choice(image_data.shape[0],size=num_samples,replace=False)   #randomly chosing images for validation
     return image_data.iloc[indices][['Filename','ClassId']].values
+
 def show_images(image_data,cols=5,sign_names=None,show_shape=False,func=None):        #displey all images in matrix form
     num_images=len(image_data)
     rows=num_images//cols
@@ -78,7 +85,9 @@ def show_images(image_data,cols=5,sign_names=None,show_shape=False,func=None):  
         plt.xticks([])
         plt.yticks([])
     plt.show()
+
 sample_data=get_samples(train_df,20)
+
 #show_images(sample_data,sign_names=SIGN_NAMES,show_shape=True)
 #show_images(get_samples(train_df,40,class_id=2),cols=20,show_shape=True)
 #-------------------------------------------------------------------------------------------------------------------
@@ -91,6 +100,7 @@ print('X_train:',len(X_train))
 print('X_valid:',len(X_valid))
 #Model implimentation
 INPUT_SHAPE=(32,32,3)
+
 #pipeline
 def train_evaluate(pipeline,epochs=10,samples_per_epoch=50000,train=(X_train,y_train),test=(X_valid, y_valid)):     #here 50000 is used to increase accuracy(more iterations)
     X,y=train
@@ -99,9 +109,10 @@ def train_evaluate(pipeline,epochs=10,samples_per_epoch=50000,train=(X_train,y_t
         indices=np.random.choice(len(X),size=samples_per_epoch)       #did u get the use of np.random() ?
         pipeline.fit(X[indices],y[indices])
         scores=[pipeline.score(*train),pipeline.score(*test)]
-        learning_curve.append([i,*scores])
+        learning_curve.append({i, *scores})
         print("Epoch: {:>3} Training score: {:.3f} Evaluation score: {:.3f}".format(i,*scores))
     return np.array(learning_curve).T
+
 #network1 performance:
 def resize_image(image,shape=INPUT_SHAPE[:2]):
     return cv2.resize(image,shape)
@@ -110,6 +121,7 @@ loader=lambda image_file: resize_image(load_image(image_file))
     functions=[loader]
     pipeline=build_pipeline(functions,session, network1(),make_adam(1.0e-3))
     train_evaluate(pipeline)'''
+
 #image aug
 def rBrightness(image,ratio):
     hsv=cv2.cvtColor(image,cv2.COLOR_RGB2HSV)
@@ -119,6 +131,7 @@ def rBrightness(image,ratio):
     brightness[brightness<0]=0
     hsv[:, :, 2]=brightness
     return cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
+
 def rRotation(image, angle):
     if angle==0:
         return image
@@ -129,6 +142,7 @@ def rRotation(image, angle):
     scale=1.0
     rotation=cv2.getRotationMatrix2D(center,angle,scale)
     return cv2.warpAffine(image,rotation,size)
+
 def rTranslation(image, translation):
     if translation==0:
         return 0
@@ -138,6 +152,7 @@ def rTranslation(image, translation):
     y=np.random.uniform(-translation,translation)
     trans=np.float32([[1,0,x],[0,1,y]])
     return cv2.warpAffine(image,trans,size)
+
 def rShear(image, shear):
     if shear==0:
         return image
@@ -150,24 +165,31 @@ def rShear(image, shear):
     p2=np.float32([[left+dx,top],[right+dx,top+dy],[left,bottom+dy]])
     move=cv2.getAffineTransform(p1,p2)
     return cv2.warpAffine(image,move,size)
+
 def agument_image(image,brightness,angle,translation,shear):
     image=rBrightness(image,brightness)
     image=rRotation(image,angle)
     image=rTranslation(image,translation)
     image=rShear(image,shear)
     return image
+
 augmenter=lambda x: agument_image(x,0.7,10,5,2)
 show_images(sample_data[10:],cols=10)
+
 for i in range(5):
     show_images(sample_data[10:],cols=10,func=augmenter)
+
 '''with Session() as session:
     functions=[loader,augmenter]
     pipeline=build_pipeline(functions,session, network1(),make_adam(1.0e-3))
     train_evaluate(pipeline)'''
+
 normilzers=[('x-127.5', lambda x: x-127.5),('x/127.5-1.0', lambda x: x/127.5-1.0),
            ('x/225.0-0.5',lambda x: x/225.0-0.5),('x-x.mean()',lambda x: x-x.mean()),
            ('(x-x.mean())/x.std()', lambda x: (x-x.mean())/x.std())]
+
 normalizer=lambda x: (x-x.mean())/x.std()
+
 converters = [('Gray', lambda x: cv2.cvtColor(x, cv2.COLOR_RGB2GRAY)[:, :, np.newaxis]),
               ('HSV', lambda x: cv2.cvtColor(x, cv2.COLOR_RGB2HSV)),
               ('HLS', lambda x: cv2.cvtColor(x, cv2.COLOR_RGB2HLS)),
@@ -176,8 +198,10 @@ converters = [('Gray', lambda x: cv2.cvtColor(x, cv2.COLOR_RGB2GRAY)[:, :, np.ne
               ('XYZ', lambda x: cv2.cvtColor(x, cv2.COLOR_RGB2XYZ)),
               ('Yrb', lambda x: cv2.cvtColor(x, cv2.COLOR_RGB2YCrCb)),
               ('YUV', lambda x: cv2.cvtColor(x, cv2.COLOR_RGB2YUV))]
+
 GRAY_INPUT_SHAPE = (*INPUT_SHAPE[:2], 1)
 preprocessors = [loader,augmenter, normalizer]
+
 def show_learning_curve(learning_curve):
     epochs, train, valid = learning_curve
     plt.figure(figsize=(10, 10))
@@ -188,6 +212,7 @@ def show_learning_curve(learning_curve):
     plt.xlabel('epochs')
     plt.xticks(epochs)
     plt.legend(loc='center right')
+
 def plot_confusion_matrix(cm):
     cm = [row/sum(row)   for row in cm]
     fig = plt.figure(figsize=(10, 10))
@@ -198,6 +223,7 @@ def plot_confusion_matrix(cm):
     plt.xlabel('Predicted Class IDs')
     plt.ylabel('True Class IDs')
     plt.show()
+
 def print_confusion_matrix(cm, sign_names=SIGN_NAMES):
     results = [(i, SIGN_NAMES[i], row[i]/sum(row)*100) for i, row in enumerate(cm)]
     accuracies = []
@@ -206,6 +232,7 @@ def print_confusion_matrix(cm, sign_names=SIGN_NAMES):
         accuracies.append(result[2])
     print('-'*50)
     print('Accuracy: Mean: {:.3f} Std: {:.3f}'.format(np.mean(accuracies), np.std(accuracies)))
+
 def make_network3(input_shape=INPUT_SHAPE):
     return (NeuralNetwork()
             .input(input_shape)
@@ -221,7 +248,6 @@ def make_network3(input_shape=INPUT_SHAPE):
             .dense(N_CLASSES))
 
 X_new = np.array(glob.glob('images/*.ppm'))
-
 new_images = [plt.imread(path) for path in X_new]
 
 print('-' * 80)
@@ -246,7 +272,6 @@ with Session() as session:
     top_5_prob, top_5_pred = estimator.top_k_
 
 print('done')
-
 print('-' * 80)
 print('Top 5 Predictions')
 print('-' * 80)
