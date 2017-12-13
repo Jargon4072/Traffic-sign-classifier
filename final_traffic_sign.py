@@ -16,7 +16,7 @@ sys.path.append('/home/krishna_warrior/Desktop/traffic_sign_final')        #addr
 from pipeline import NeuralNetwork, make_adam, Session, build_pipeline      #import from pipeline
 matplotlib.style.use('ggplot')
 
-TRAIN_IMAGE_DIR='/home/krishna_warrior/Desktop/train'
+TRAIN_IMAGE_DIR='/home/krishna_warrior/Desktop/dataset30k'
 dfs=[]
 for train_file in glob.glob(os.path.join(TRAIN_IMAGE_DIR,'*/GT-*.csv')):
     folder=train_file.split('/')[5]      #actually my path contains 5 elements, configure according to your path

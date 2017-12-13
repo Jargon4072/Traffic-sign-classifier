@@ -240,7 +240,7 @@ print('getting top 5 results')
 
 with Session() as session:
     pipeline = build_pipeline(preprocessors, session, make_network3())
-    session.load('checkpoint/network3_epochs-100_lr-1.0e-4.ckpt')
+    session.load('checkpoint/network3_e-100_lr-1.0e-4.ckpt')
     prob = pipeline.predict_proba(X_new)
     estimator = pipeline.steps[-1][1]
     top_5_prob, top_5_pred = estimator.top_k_
