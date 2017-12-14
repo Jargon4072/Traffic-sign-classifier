@@ -220,14 +220,14 @@ def make_network3(input_shape=INPUT_SHAPE):
             .relu()
             .dense(N_CLASSES))
 with Session() as session:
-    pipeline = build_pipeline(preprocessors, session, make_network3(), make_adam(1.0e-3))
+    pipeline = build_pipeline(preprocessors, session, make_network3(), make_adam(0.5e-3))
     learning_curve = train_evaluate(pipeline,epochs=20)
-    session.save('checkpoint/network3_epochs20.ckpt')
+    session.save('checkpoint/network3_e_20_lr_0.5e-3.ckpt')
 
 show_learning_curve(learning_curve)
 with Session() as session:
     pipeline = build_pipeline(preprocessors, session, make_network3())
-    session.load('checkpoint/network3_epochs100.ckpt')
+    session.load('checkpoint/network3_e_20_lr_0.5e-3.ckpt')
     pred = pipeline.predict(X_valid)
 cm = confusion_matrix(y_valid, pred)
 plot_confusion_matrix(cm)
