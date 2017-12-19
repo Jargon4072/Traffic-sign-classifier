@@ -16,4 +16,7 @@ This project requires **Python 3.5** and the following Python libraries installe
 
 ### Dataset
 - Dataset used is German Traffic Sign Recognition Bentchmark(GTSRB). [Download the dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset)  from here.
+- The Training dataset contains 39,209 training images in 43 classes. The test dataset contains 12,630 test images.
 
+### Model Architecture
+The model is based on LeNet by Yann LeCun. It is a convolutional neural network designed to recognize visual patterns directly from pixel images with minimal preprocessing. It can handle hand-written characters very well too.
