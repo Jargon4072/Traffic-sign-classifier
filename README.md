@@ -1,6 +1,6 @@
 # Traffic-sign-classifier
 ### Overview
-
+In this project, I've built a model to classify the traffic signs.The model is trained using convolutional network based on the [LeNet](http://yann.lecun.com/exdb/lenet/) architecture by Yann LeCun. I've used using scikit-learn's pipeline framewok along with various combination of transformer and estimators.
 ### Dependencies
 This project requires **Python 3.5** and the following Python libraries installed:
 - [Jupyter](http://jupyter.org/)
@@ -25,18 +25,27 @@ The model is based on LeNet by Yann LeCun. It is a convolutional neural network 
 More about LeNet can be found in [this](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf) paper published by it's author Yann LeCunn and Pierre Sermanet.
 
 Our model is tweeked version of LeNet in which various modifications are done to improve the accuracy of model.
-The Detail about our model is in [notebok file](https://github.com/Jargon4072/Traffic-sign-classifier/blob/master/Traffic-sign-classifier.ipynb) of this repository.
+The Detail about our model is in [ Jupyter notebok file](https://github.com/Jargon4072/Traffic-sign-classifier/blob/master/Traffic-sign-classifier.ipynb) of this repository. Open the notebook file by running this command:
+
+```
+$jupyter notebok Traffic-sign-classifier.ipynb
+```
 
 ### Installation
 As explained earlier the project uses Python 3.5 and several dependencies. Insatall correaponding dependencies and clone this repository by firing up terminal and running following command:
 
-`git clone https://github.com/Jargon4072/Traffic-sign-classifier.git`
+```
+$git clone https://github.com/Jargon4072/Traffic-sign-classifier.git
+```
 
 Now everything is good to go.
+
 ### Usage
 train.py is usde for training the network and saving the checkpoint file generated in checkpoint folder. Configure corresponding paths in train.py and run it by follwing command:
 
-`python3 train.py`
+```
+$python3 train.py
+```
 
 The path to be cofigured are:
 - pipeline folder path. Make sure to downloade pipeline folder from [this](https://github.com/naokishibuya/car-traffic-sign-classification/tree/master/pipeline) link.
@@ -44,13 +53,25 @@ The path to be cofigured are:
 
 After training checkpoints will be saved in checkpoint folder. Load checkpoint and test the model by using test.py from following command:
 
-`python3 test.py`
+```
+$python3 test.py
+```
 
-Make sure to provide above described paths in test.py.
+Make sure to provide above described paths and the path of folder containing images in the test.py.
 
 The accuracy of model can also be checked by using test_accuracy.py file as follows:
 
-`python3 test_accuracy.py`
+```
+$python3 test_accuracy.py
+```
 
 Again don't forget to edit corresponding path in this one too.
-
+### References and Resources
+- Traffic Sign Recognition with Multi-Scale Convolutional Networks|Pierre Sermanet and Yann LeCun: [http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf]
+- LeNet Demo (Yann LeCun): [http://yann.lecun.com/exdb/lenet/]
+- Gradient-Based Learning Applied to Document Recognition|Pierre Sermanet and Yann LeCun: [http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf]
+- Udacity: Self-Driving Car Engineer: Traffic Sign Classifier Project: [https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project]
+- Tensorflow Tutorials: [https://www.tensorflow.org/tutorials/]
+- Keras with Scikit-Learn Pipeline: [http://machinelearningmastery.com/regression-tutorial-keras-deep-learning-library-python/]
+- Pipeline implimentation of LeNet: [https://github.com/naokishibuya/car-traffic-sign-classification/tree/master/pipeline]
+- Neural Network and Deep learning complete study [http://neuralnetworksanddeeplearning.com]
