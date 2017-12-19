@@ -21,6 +21,8 @@ This project requires **Python 3.5** and the following Python libraries installe
 ### Model Architecture
 The model is based on LeNet by Yann LeCun. It is a convolutional neural network designed to recognize visual patterns directly from pixel images with minimal preprocessing. It can handle hand-written characters very well too.
 ![LeNet](images/lenet_architecture-768x226.jpeg)
+                  Fig:LeNet Architecture.
+
 More about LeNet can be found in [this](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf) paper published by it's author Yann LeCunn and Pierre Sermanet.
 
 Our model is tweeked version of LeNet in which various modifications are done to improve the accuracy of model.
