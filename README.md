@@ -50,7 +50,7 @@ $python3 train.py
 ```
 
 The paths to be cofigured are:
-- pipeline folder path. Make sure to downloade pipeline folder from [this](https://github.com/naokishibuya/car-traffic-sign-classification/tree/master/pipeline) link.
+- pipeline folder path. Make sure to downloade all files from [this](https://github.com/Jargon4072/Traffic-sign-classifier/tree/master/pipeline) link and place it in a folder pipeline.
 - Dataset path.
 
 After training checkpoints will be saved in checkpoint folder. Load checkpoint and test the model by using test.py from following command:
