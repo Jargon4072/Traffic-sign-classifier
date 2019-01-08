@@ -17,7 +17,7 @@ This project requires **Python 3.5** and the following Python libraries installe
 - OpenCV can also be install with apt-get in Ubuntu.
 
 ### Dataset
-- Dataset used is German Traffic Sign Recognition Bentchmark(GTSRB). [Download the dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset)  from here.
+- Dataset used is German Traffic Sign Recognition Bentchmark(GTSRB). [Download the dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset).
 - The Training dataset contains 39,209 training images in 43 classes. The test dataset contains 12,630 test images.
 
 ### Model Architecture
