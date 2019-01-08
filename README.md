@@ -1,6 +1,6 @@
 # Traffic-sign-classifier
 ### Overview
-In this project, I've built a model to classify the traffic signs.The model is trained using convolutional network based on the [LeNet](http://yann.lecun.com/exdb/lenet/) architecture by Yann LeCun. I've used using scikit-learn's pipeline framewok along with various combination of transformer and estimators.
+This project aims to build a model to classify the traffic signs.The model is trained using convolutional network based on the [LeNet](http://yann.lecun.com/exdb/lenet/) architecture by Yann LeCun. I've used using scikit-learn's pipeline framewok along with various combination of transformer and estimators.
 
 Augmentation and Normalisation of data is also done before feeding in neural network. I've experimented and built different [networks](https://github.com/Jargon4072/Traffic-sign-classifier/tree/master/networks) with different learning rate,epochs and preprocessors. The nework with highest accuracy is used to train the final model.
 ### Dependencies
